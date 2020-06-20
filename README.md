@@ -9,27 +9,17 @@ The pseudo code for obtaining the optimal global arrangement of Kevlar using BO 
  1. Observe n data points {(y_i,z_i ),f_i},i=1…n
  2. Build a gaussian process prior on f.
  3. Bayesian optimization
-     {
 	for j=1 to n_max
 		a. Obtain next (y_j,z_j ) by optimizing acquisition function EI over GP as
 			(y_j,z_j )= 〖argmin〗_((y_j,z_j ) ) EI((y_j,z_j )│{(y_i,z_i ),f_i }_(i=1..n) )
-			
-		b. Obtain the ground truth f_j by running one round of black box vasp evaluation 		    for obtaining the potential energy value.
-
+		b. Obtain the ground truth f_j by running one round of black box vasp evaluation for obtaining the potential energy value.
 		c. Obtain a new augmented set {(y_i,z_i ),f_i }_(i=1..n+1)
 		    n = n+1
-
              	d. Update the gaussian process prior on f.
-      }
  
  4. Expected Improvement acquisition functionEI
-     {
      	a. (y_j,z_j )= argmin〖EI〗_n ({(y_i,z_i ),f_i }_(i=1..n))
         	Here f_i is a gaussian process prior obtained by fitting the n data points.
       	b. EI = {(μ- f^min- ξ)Φ(z)┤+ σϕ(z), 
 	    where Φ and ϕ are cumulative and probability of standard normal z
               z=  (μ-f^min-ξ)/σ
-     }
-The initial n {(y_i,z_i )},i=1…n distribution and the predicted data points  are shown in figure 2. Since y_i,z_i are a set of 4 values each, we combine them together using one-to-one mapping function having the following functional form,
-yval = 〖log〗_2 (3^(y_1 )+5^(y_2 )+7^(y_3 )+9^(y_4 ) ), here 0≤y_i  ≤1
-zval = 〖log〗_2 (3^(z_1 )+5^(z_2 )+7^(z_3 )+9^(z_4 ) ),  here 0≤z_i  ≤1
